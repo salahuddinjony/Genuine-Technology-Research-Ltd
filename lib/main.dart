@@ -11,7 +11,8 @@ import 'app/services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final authController = Get.put(AuthController(ApiService()));
+  final apiService = Get.put(ApiService()); // Register ApiService as a singleton
+  final authController = Get.put(AuthController(apiService));
   await authController.tryAutoLogin();
 
   runApp(GetMaterialApp(

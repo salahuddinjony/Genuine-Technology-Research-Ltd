@@ -6,6 +6,7 @@ import '../controllers/customer_controller.dart';
 import '../services/api_service.dart';
 import '../controllers/auth_controller.dart'; // Added import for AuthController
 import '../routes/app_routes.dart'; // Added import for AppRoutes
+import 'package:shimmer/shimmer.dart';
 
 class CustomerListScreen extends StatelessWidget {
   CustomerListScreen({Key? key}) : super(key: key);
@@ -95,7 +96,23 @@ class CustomerListScreen extends StatelessWidget {
       body: SafeArea(
         child: Obx(() {
           if (customerController.isLoading.value && customerController.customers.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return ListView.builder(
+              itemCount: 6,
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                ),
+              ),
+            );
           }
           if (customerController.errorMessage.isNotEmpty) {
             return Center(
