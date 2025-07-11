@@ -1,4 +1,17 @@
-# task_of_genuine_technology
+# Project overview
+
+<!-- App Screenshots -->
+<p align="center">
+  <img src="Application overview(Screenshot)/login page.png" alt="Login Page" width="180"/>
+  <img src="Application overview(Screenshot)/profile page.png" alt="Profile Page" width="180"/>
+  <img src="Application overview(Screenshot)/customer list page.png" alt="Customer List Page" width="180"/>
+  <img src="Application overview(Screenshot)/customer details.png" alt="Customer Details" width="180"/>
+  <img src="Application overview(Screenshot)/filter option .png" alt="Filter Option" width="180"/>
+</p>
+
+<p align="center">
+  <b>Login Page</b> &nbsp;&nbsp; <b>Profile Page</b> &nbsp;&nbsp; <b>Customer List</b> &nbsp;&nbsp; <b>Customer Details</b> &nbsp;&nbsp; <b>Filter Option</b>
+</p>
 
 A new Flutter project.
 
