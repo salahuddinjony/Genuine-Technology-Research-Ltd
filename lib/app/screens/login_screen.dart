@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 import '../routes/app_routes.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -57,30 +58,53 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 28),
                   Obx(() {
                     if (authController.isLoading.value) {
-                      return const CircularProgressIndicator();
+                      return const SizedBox.shrink();
                     }
                     return SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton.icon(
-                        icon: const Icon(Icons.login),
-                        label: const Text('Login'),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.deepPurple, Colors.blueAccent],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.deepPurple.withOpacity(0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
                         ),
-                        onPressed: () async {
-                          await authController.login(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                          );
-                          if (authController.user.value != null) {
-                            Get.offAllNamed(AppRoutes.customers);
-                          } else if (authController.errorMessage.isNotEmpty) {
-                            Get.snackbar('Login Failed', authController.errorMessage.value,
-                                backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
-                          }
-                        },
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.login, color: Colors.white),
+                          label: const Text('Login', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                            elevation: 0,
+                          ),
+                          onPressed: () async {
+                            EasyLoading.show(status: 'Logging in...');
+                            await authController.login(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                            );
+                            EasyLoading.dismiss();
+                            if (authController.user.value != null) {
+                              EasyLoading.showSuccess('Login Successful!');
+                              await Future.delayed(const Duration(milliseconds: 800));
+                              Get.offAllNamed(AppRoutes.customers);
+                            } else if (authController.errorMessage.isNotEmpty) {
+                              Get.snackbar('Login Failed', authController.errorMessage.value,
+                                  backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
+                            }
+                          },
+                        ),
                       ),
                     );
                   }),

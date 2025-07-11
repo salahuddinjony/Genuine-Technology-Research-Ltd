@@ -40,11 +40,16 @@ class ApiService {
     final url = Uri.parse(
       "${baseLink}GetCustomerList?searchquery=$searchQuery&pageNo=$pageNo&pageSize=$pageSize&SortyBy=$sortBy",
     );
+    print('getCustomerList called. _token: $_token');
     final headers = <String, String>{};
     if (_token != null) {
-      headers['Authorization'] = _token!;
+      print('Using token: $_token');
+      headers['Authorization'] = 'Bearer $_token'; // or just _token! if your API expects that
     }
+    print('Request headers: $headers');
     final response = await http.get(url, headers: headers);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data is Map && data.containsKey('CustomerList')) {
